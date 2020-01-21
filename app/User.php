@@ -1,4 +1,6 @@
 <?php
+// User Model
+// This model represents a single row in the database - a single User in the database.
 
 namespace App;
 
@@ -36,4 +38,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class); // app/Profile - it already exists in the App namespace defined at the top of this file.
+    }
 }

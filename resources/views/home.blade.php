@@ -5,19 +5,19 @@
 
 	<div class="row">
 		<div class="col-3 p-5">
-			<img src="https://scontent-syd2-1.cdninstagram.com/v/t51.2885-19/s320x320/70985486_577637296311063_2240788552625422336_n.jpg?_nc_ht=scontent-syd2-1.cdninstagram.com&_nc_ohc=bgk4uf-h8cQAX_pb9Q_&oh=b45b176c2b493ad2b3725ffb14acfcf8&oe=5ED1A027" class="rounded-circle" style="height: 150px; width: 150px;">
+			<img src="https://scontent-syd2-1.cdninstagram.com/v/t51.2885-19/s320x320/70985486_577637296311063_2240788552625422336_n.jpg?_nc_ht=scontent-syd2-1.cdninstagram.com&_nc_ohc=bgk4uf-h8cQAX_pb9Q_&oh=b45b176c2b493ad2b3725ffb14acfcf8&oe=5ED1A027" class="rounded-circle" style="max-width: 150px; min-width: 60px; width: 100%;">
 		</div>
 
 		<div class="col-9 pt-5">
-			<div><h1>freecodecamp</h1></div>
+			<div><h1>{{ $user->username }}</h1></div> <!-- $user come from ProfilesController.php -->
 			<div class="d-flex">
 				<div class="pr-5"><strong>153</strong> post</div>
 				<div class="pr-5"><strong>23k</strong> followers</div>
 				<div class="pr-5"><strong>212</strong> following</div>
 			</div>
-			<div class="pt-4 font-weight-bold">freeCodeCamp.org</div>
-			<div>We're a global community of millions of people learning to code together. We're an open source, donor-supported, 501(c)(3) nonprofit.</div>
-			<div><a href="http://www.freecodecamp.org" class="font-weight-bold" style="color: #003569">www.freecodecamp.org</a></div>
+		<div class="pt-4 font-weight-bold"> {{ $user->profile->title }}</div>
+		<div>{{ $user->profile->description }}</div>
+		<div><a href="{{ $user->profile->url }}" class="font-weight-bold" style="color: #003569">{{ $user->profile->url }}</a></div>
 		</div>
 	</div>
 
