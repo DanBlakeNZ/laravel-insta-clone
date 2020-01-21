@@ -22,3 +22,5 @@ Route::get('/profile/{user}', 'ProfilesController@index')->name('profile.show');
 // Giving the route a name of profile.show
 // For details on RESTful Resource Controller conventions and naming see here:
 // https://laravel.com/docs/5.1/controllers#restful-resource-controllers
+
+Route::get('/p', 'PostsController@create');

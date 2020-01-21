@@ -9,7 +9,10 @@
 		</div>
 
 		<div class="col-9 pt-5">
-			<div><h1>{{ $user->username }}</h1></div> <!-- $user come from ProfilesController.php -->
+			<div class="d-flex justify-content-between align-items-baseline">
+				<h1>{{ $user->username }}</h1> <!-- $user come from ProfilesController.php -->
+				<a href="#">Add New Post</a>
+			</div>
 			<div class="d-flex">
 				<div class="pr-5"><strong>153</strong> post</div>
 				<div class="pr-5"><strong>23k</strong> followers</div>

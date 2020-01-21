@@ -43,4 +43,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class); // app/Profile - it already exists in the App namespace defined at the top of this file.
     }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }

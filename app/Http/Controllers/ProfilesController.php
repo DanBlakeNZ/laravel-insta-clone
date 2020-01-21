@@ -11,10 +11,10 @@ class ProfilesController extends Controller
 	// Called from app > http > web.php
 	public function index($user)
 	{
-		$user = User::find($user);
+		$user = User::findOrFail($user); //findOrFail (as apposed to just find() will go to a 404 error page rather than throw errors)
 
-		// 'home' is referring resources/views/home.blade.php
-		return view('home',[
+		// 'home' is referring resources/views/profiles/index.blade.php
+		return view('profiles/index',[
 			'user' => $user, // 'user' is the variable name being passed into home.blade.php
 		]);
 	}
