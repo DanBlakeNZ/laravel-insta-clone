@@ -17,8 +17,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/profile/{user}', 'ProfilesController@index')->name('profile.show');
+// Calling the index method inside ProfilesController.php
+// Giving the route a name of profile.show
+// For details on RESTful Resource Controller conventions and naming see here:
+// https://laravel.com/docs/5.1/controllers#restful-resource-controllers
