@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 
 class PostsController extends Controller // Note when creating a directory in views, convention is to call the directory after the controller name eg 'posts'
 {
+	// Adding this will protect the post routes - the user has to be logged into be able to post, otherwise redirected to login.
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
+
 	public function create()
 	{
 		return view('posts/create');
@@ -15,19 +21,28 @@ class PostsController extends Controller // Note when creating a directory in vi
 	{
 		// Perform validation on a submitted form
 		// List of validation rules that can be used: https://laravel.com/docs/5.1/validation#available-validation-rules
+		// request() contains the request values.
 		$data = request()->validate([
 			'caption' => 'required',
 			'image' => ['required', 'image'], //Multiple rules - ensure the uploaded file is an image https://laravel.com/docs/5.1/validation#rule-image
 		]);
 
-		auth()->user()->posts()->create($data);
+		$imagePath = request('image')->store('uploads', 'public');
+		// First param is where you want to store the image. (app/public/storage/uploads)
+		// Second param is what driver you want to use to store the file eg s3.
+		// NOTE: Don't forget to run php artisan storage:link to ensure there is a public link to the storage folder
+
+		auth()->user()->posts()->create([
+			'caption' => $data['caption'],
+			'image' => $imagePath,
+		]);
 		// The above is required because in the create_posts_table.php migration there is $table->unsignedBigInteger('user_id').
 		// The ID of the authenticated user is not in the request, but the ID is required.
 		// 1. Get the authenticated user.
-		// 2. On that user call theix posts (User.posts() located in User.php).
+		// 2. On that user call their posts (User.posts() located in User.php).
 		// 3. Create a new post - Laravel will add the required user ID behind the scenes for us.
 
 
-		dd(request()->all());
+		return redirect('/profile/' .  auth()->user()->id);
 	}
 }
