@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected $guarded = []; // This turns off Laravel's automatic validation - because we are validation in the controllers.
+    protected $guarded = []; // Disables Mass Assignment. This turns off Laravel's automatic validation - because we are performing validation in the controller.
 
     public function user()
     {

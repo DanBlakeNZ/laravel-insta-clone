@@ -2,20 +2,33 @@
 
 namespace App\Http\Controllers;
 
-
-use App\User; // Here we are referencing User located in User.php - is referenced below as User.
 use Illuminate\Http\Request;
 
 class ProfilesController extends Controller
 {
-	// Called from app > http > web.php
-	public function index($user)
+	public function index(\App\User $user)
 	{
-		$user = User::findOrFail($user); //findOrFail (as apposed to just find() will go to a 404 error page rather than throw errors)
+		return view('profiles/index', compact('user'));// 'user' is the variable name being passed into home.blade.php. Could also be done using compact('user')
+	}
 
-		// 'home' is referring resources/views/profiles/index.blade.php
-		return view('profiles/index',[
-			'user' => $user, // 'user' is the variable name being passed into home.blade.php
+
+	public function edit(\App\User $user)
+	{
+		return view('profiles/edit', compact('user'));
+	}
+
+	public function update(\App\User $user)
+	{
+		$data = request()->validate([
+			'title' => 'required',
+			'description' => 'required',
+			'url' => 'url',
+			'image'=> '',
 		]);
+
+		// $user->profile->update($data); << Works but is insecure as we are getting all user values from the request
+		auth()->user()->profile->update($data); // Secure as getting values from authenticated user.
+
+		return redirect("/profile/{$user->id}");
 	}
 }

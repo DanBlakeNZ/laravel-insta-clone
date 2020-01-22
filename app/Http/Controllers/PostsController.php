@@ -33,7 +33,7 @@ class PostsController extends Controller // Note when creating a directory in vi
 		// Second param is what driver you want to use to store the file eg s3.
 		// NOTE: Don't forget to run php artisan storage:link to ensure there is a public link to the storage folder
 
-		//Note the Image import at the top of the page
+		//NOTE: The Image import at the top of the page
 		$image = Image::make(public_path("storage/{$imagePath}"))->fit(1200, 1200);
 		$image->save(); // Overrides the image/file saved/stored in the previous step.
 
@@ -50,4 +50,14 @@ class PostsController extends Controller // Note when creating a directory in vi
 
 		return redirect('/profile/' .  auth()->user()->id);
 	}
+
+	// Route Model Binding
+	// If the route key attribute being passed (post) & the variable ($post) has the same name,
+	// then you can type hint (\App\Post) the model and Laravel will try to fetch the resource for us automatically.
+	// this also automatically includes findOrFail for us.
+	public function show(\App\Post $post)
+	{
+		return view('posts/show', compact('post')); // Compact is the same as doing ['post' => $post]
+	}
 }
+
