@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Intervention\Image\Facades\Image; 
 use Illuminate\Http\Request;
 use App\User;
 
@@ -31,8 +32,18 @@ class ProfilesController extends Controller
 			'image'=> '',
 		]);
 
+		if(request('image')){
+			$imagePath = request('image')->store('profile', 'public');
+			$image = Image::make(public_path("storage/{$imagePath}"))->fit(1000, 1000); 	//NOTE: The Image import at the top of the page
+			$image->save();
+		}
+
 		// $user->profile->update($data); << Works but is insecure as we are getting all user values from the request
-		auth()->user()->profile->update($data); // Secure as getting values from authenticated user.
+		// Below is more cecure as getting values from authenticated user.
+		auth()->user()->profile->update(array_merge(
+			$data,
+			['image' => $imagePath] // This will override the 'image' value stored in $data.
+		));
 
 		return redirect("/profile/{$user->id}");
 	}

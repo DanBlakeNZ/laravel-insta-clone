@@ -5,13 +5,15 @@
 
 	<div class="row">
 		<div class="col-3 p-5">
-			<img src="https://scontent-syd2-1.cdninstagram.com/v/t51.2885-19/s320x320/70985486_577637296311063_2240788552625422336_n.jpg?_nc_ht=scontent-syd2-1.cdninstagram.com&_nc_ohc=bgk4uf-h8cQAX_pb9Q_&oh=b45b176c2b493ad2b3725ffb14acfcf8&oe=5ED1A027" class="rounded-circle" style="max-width: 150px; min-width: 60px; width: 100%;">
+			<img src="/storage/{{ $user->profile->image }}" class="rounded-circle w-100">
 		</div>
 
 		<div class="col-9 pt-5">
 			<div class="d-flex justify-content-between align-items-baseline">
 				<h1>{{ $user->username }}</h1> <!-- $user come from ProfilesController.php -->
-				<a href="/p/create">Add New Post</a>
+				@can('update', $user->profile) <!-- Authorizing an update via ProfilePolicy.php -->
+					<a href="/p/create">Add New Post</a>
+				@endcan
 			</div>
 
 			@can('update', $user->profile) <!-- Authorizing an update via ProfilePolicy.php -->

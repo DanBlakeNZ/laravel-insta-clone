@@ -39,6 +39,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        //When a user gets created, we also want to create a profile for them.
+        static::created(function ($user){
+            $user->profile()->create([
+                //Setting defaults
+                'title' => $user->username,
+            ]);
+        });
+    }
+
     public function profile()
     {
         return $this->hasOne(Profile::class); // app/Profile - it already exists in the App namespace defined at the top of this file.
