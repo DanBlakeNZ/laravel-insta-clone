@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image; //http://image.intervention.io/
 
 class PostsController extends Controller // Note when creating a directory in views, convention is to call the directory after the controller name eg 'posts'
 {
@@ -31,6 +32,10 @@ class PostsController extends Controller // Note when creating a directory in vi
 		// First param is where you want to store the image. (app/public/storage/uploads)
 		// Second param is what driver you want to use to store the file eg s3.
 		// NOTE: Don't forget to run php artisan storage:link to ensure there is a public link to the storage folder
+
+		//Note the Image import at the top of the page
+		$image = Image::make(public_path("storage/{$imagePath}"))->fit(1200, 1200);
+		$image->save(); // Overrides the image/file saved/stored in the previous step.
 
 		auth()->user()->posts()->create([
 			'caption' => $data['caption'],
