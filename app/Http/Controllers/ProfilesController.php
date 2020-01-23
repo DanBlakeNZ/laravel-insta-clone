@@ -10,7 +10,10 @@ class ProfilesController extends Controller
 {
 	public function index(User $user)
 	{
-		return view('profiles/index', compact('user'));// 'user' is the variable name being passed into home.blade.php. Could also be done using compact('user')
+
+		$follows = (auth()->user()) ? auth()->user()->following->contains($user->id) : false;
+
+		return view('profiles/index', compact('user', 'follows'));// 'user' & 'follows' are the variable names being passed into home.blade.php.
 	}
 
 

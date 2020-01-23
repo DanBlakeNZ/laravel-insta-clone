@@ -46,7 +46,6 @@ class User extends Authenticatable
         //When a user gets created, we also want to create a profile for them.
         static::created(function ($user){
             $user->profile()->create([
-                //Setting defaults
                 'title' => $user->username,
             ]);
         });
@@ -60,5 +59,10 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->hasMany(Post::class)->orderBy('created_at', 'DESC'); // reverse the order saved on DB (newest post first)
+    }
+
+    public function following()
+    {
+        return $this->belongsToMany(Profile::class);
     }
 }

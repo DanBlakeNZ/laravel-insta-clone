@@ -10,7 +10,14 @@
 
 		<div class="col-9 pt-5">
 			<div class="d-flex justify-content-between align-items-baseline">
-				<h1>{{ $user->username }}</h1> <!-- $user come from ProfilesController.php -->
+				<div class="d-flex align-items-center pb-2">
+					<div class="h4">{{ $user->username }}</div> <!-- $user come from ProfilesController.php -->
+
+					<follow-button user-id="{{$user->id}}" follows="{{$follows}}"></follow-button>
+
+				</div>
+
+
 				@can('update', $user->profile) <!-- Authorizing an update via ProfilePolicy.php -->
 					<a href="/p/create">Add New Post</a>
 				@endcan

@@ -21,6 +21,8 @@ Auth::routes();
 // https://laravel.com/docs/5.1/controllers#restful-resource-controllers
 // Following the rules outlined here will mean your applications will follow a pattern and will be very clean & easy to maintain/upgrade.
 
+Route::post('follow/{user}','FollowsController@store');
+
 Route::post('/p', 'PostsController@store');
 Route::get('/p/create', 'PostsController@create'); //This route needs to be
 Route::get('/p/{post}', 'PostsController@show'); // before this route. Because it has a variable it will alway evaluate first.
