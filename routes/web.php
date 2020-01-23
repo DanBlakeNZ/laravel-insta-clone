@@ -10,13 +10,17 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+use App\Mail\NewUserWelcomeMail;
 
 Auth::routes();
 
 // For details on RESTful Resource Controller conventions and route naming see here:
 // https://laravel.com/docs/5.1/controllers#restful-resource-controllers
 // Following the rules outlined here will mean your applications will follow a pattern and will be very clean & easy to maintain/upgrade.
+
+Route::get('/email', function (){
+  return new NewUserWelcomeMail();
+});
 
 Route::post('follow/{user}','FollowsController@store');
 
