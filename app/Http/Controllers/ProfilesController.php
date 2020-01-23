@@ -36,13 +36,15 @@ class ProfilesController extends Controller
 			$imagePath = request('image')->store('profile', 'public');
 			$image = Image::make(public_path("storage/{$imagePath}"))->fit(1000, 1000); 	//NOTE: The Image import at the top of the page
 			$image->save();
+
+			$imageArray = ['image' => $imagePath];
 		}
 
 		// $user->profile->update($data); << Works but is insecure as we are getting all user values from the request
 		// Below is more cecure as getting values from authenticated user.
 		auth()->user()->profile->update(array_merge(
 			$data,
-			['image' => $imagePath] // This will override the 'image' value stored in $data.
+			$imageArray ?? [] // This will override the 'image' value stored in $data.
 		));
 
 		return redirect("/profile/{$user->id}");
