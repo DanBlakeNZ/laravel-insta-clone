@@ -17,9 +17,11 @@ class PostsController extends Controller // Note when creating a directory in vi
 	public function index()
 	{
 		$users = auth()->user()->following()->pluck('profiles.user_id'); // The id's of the users the currently logged in user is following.
-		
+
 		// Return posts where a (post's) user_id is in the list of $users. Latest lists them newest to oldest.
-		$posts = Post::whereIn('user_id', $users)->latest()->paginate(5); //Paginate - include the number of records we want per-page
+		// Paginate - include the number of records we want per-page
+		// 'user' is the user in the Post model (Post.php) - we provide it as part of $posts. (otherwise Laravel would need to get(request) the user id each time in the @foreach loop)
+		$posts = Post::whereIn('user_id', $users)->with('user')->latest()->paginate(5);
 
 		return view('posts/index', compact('posts'));
 	}

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Intervention\Image\Facades\Image; 
-use Illuminate\Http\Request;
 use App\User;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Http\Request;
 
 class ProfilesController extends Controller
 {
@@ -13,7 +14,30 @@ class ProfilesController extends Controller
 
 		$follows = (auth()->user()) ? auth()->user()->following->contains($user->id) : false;
 
-		return view('profiles/index', compact('user', 'follows'));// 'user' & 'follows' are the variable names being passed into home.blade.php.
+		// Note the importing of Cache at the top.
+		$postCount = Cache::remember( // note you can also use rememberForever which doesn't expire
+			'count.posts.' . $user->id, // Cache key/name is concatenating count.posts with user id.
+			now()->addSeconds(30), // time to store/cache value
+			function() use ($user){ // If its not there, run this
+				return  $user->posts->count();
+			});
+
+
+			$followersCount = Cache::remember(
+				'count.followers.' . $user->id,
+				now()->addSeconds(30),
+				function () use ($user) {
+						return $user->profile->followers->count();
+				});
+
+		$followingCount = Cache::remember(
+				'count.following.' . $user->id,
+				now()->addSeconds(30),
+				function () use ($user) {
+						return $user->following->count();
+				});
+
+		return view('profiles/index', compact('user', 'follows', 'postCount', 'followersCount', 'followingCount'));// The variable names being passed into home.blade.php.
 	}
 
 
