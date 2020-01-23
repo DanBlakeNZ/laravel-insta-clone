@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image; //http://image.intervention.io/
 
@@ -11,6 +12,16 @@ class PostsController extends Controller // Note when creating a directory in vi
 	public function __construct()
 	{
 		$this->middleware('auth');
+	}
+
+	public function index()
+	{
+		$users = auth()->user()->following()->pluck('profiles.user_id'); // The id's of the users the currently logged in user is following.
+		
+		// Return posts where a (post's) user_id is in the list of $users. Latest lists them newest to oldest.
+		$posts = Post::whereIn('user_id', $users)->latest()->paginate(5); //Paginate - include the number of records we want per-page
+
+		return view('posts/index', compact('posts'));
 	}
 
 	public function create()

@@ -11,9 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
 
@@ -23,6 +20,7 @@ Auth::routes();
 
 Route::post('follow/{user}','FollowsController@store');
 
+Route::get('/', 'PostsController@index');
 Route::post('/p', 'PostsController@store');
 Route::get('/p/create', 'PostsController@create'); //This route needs to be
 Route::get('/p/{post}', 'PostsController@show'); // before this route. Because it has a variable it will alway evaluate first.
